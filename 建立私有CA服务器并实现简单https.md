@@ -1,4 +1,3 @@
-﻿# 建立私有CA服务器并实现简单https
 **openssl配置文件**
 ```
 [root@test_123.206.18.135 ~]#cat /etc/pki/tls/openssl.cnf
@@ -228,8 +227,3 @@ Accept-Ranges: bytes
 ```
 #####2.本地浏览器测试
 ![title](https://leanote.com/api/file/getImage?fileId=59e34b6eab6441066c00141e)
-
-
-
-
-
