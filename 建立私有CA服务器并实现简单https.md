@@ -1,5 +1,5 @@
 **openssl配置文件**
-```
+```python
 [root@test_123.206.18.135 ~]#cat /etc/pki/tls/openssl.cnf
 ####################################################################
 [ ca ]
@@ -28,10 +28,10 @@ x509_extensions	= usr_cert		# The extentions to add to the cert
 
 default_days	= 365			# how long to certify for
 default_crl_days= 30			# how long before next CRL
-```
+```python
 
 **创建私有CA**
-#####1.创建所需要的文件
+####1.创建所需要的文件
 ```
 [root@test_123.206.18.135 ~]#cd /etc/pki/CA/
 [root@test_123.206.18.135 /etc/pki/CA]#touch index.txt
