@@ -1,4 +1,4 @@
-**openssl配置文件**
+### 配置文件
 
 ```
 [root@test_123.206.18.135 ~]#cat /etc/pki/tls/openssl.cnf
@@ -31,8 +31,8 @@ default_days	= 365			# how long to certify for
 default_crl_days= 30			# how long before next CRL
 ```
 
-**创建私有CA**
-#####1.创建所需要的文件
+### 创建私有CA
+##### 1.创建所需要的文件
 ```
 [root@test_123.206.18.135 ~]#cd /etc/pki/CA/
 [root@test_123.206.18.135 /etc/pki/CA]#touch index.txt
@@ -40,7 +40,7 @@ default_crl_days= 30			# how long before next CRL
 [root@test_123.206.18.135 /etc/pki/CA]#cat serial 
 01
 ```
-#####2.CA自签证书
+##### 2.CA自签证书
 ```
 [root@test_123.206.18.135 /etc/pki/CA]#(umask 077;openssl genrsa -out ./private/cakey.pem 2048)
 Generating RSA private key, 2048 bit long modulus
@@ -94,20 +94,20 @@ Email Address []:ca@isurecloud.com
 
 ```
 
-**节点申请证书**
-#####1.安装nginx
+### 节点申请证书
+##### 1.安装nginx
 ```
 [root@cache ~]# yum install nginx -y
 ```
-#####2.建立证书存放目录
+##### 2.建立证书存放目录
 ```
 [root@cache ~]# mkdir /etc/nginx/ssl
 ```
-#####3.生成密钥对
+##### 3.生成密钥对
 ```
 [root@cache ssl]# (umask 077;openssl genrsa -out cache.key 2048)
 ```
-#####4.生成证书签署请求
+##### 4.生成证书签署请求
 ```
 [root@cache ssl]# openssl req -new -key cache.key -out cache.csr
 You are about to be asked to enter information that will be incorporated
@@ -130,7 +130,7 @@ to be sent with your certificate request
 A challenge password []:
 An optional company name []:
 ```
-#####5.将签署请求文件发送给CA服务器
+##### 5.将签署请求文件发送给CA服务器
 ```
 [root@cache ssl]# scp cache.csr root@123.206.18.135:/tmp/
 The authenticity of host '123.206.18.135 (123.206.18.135)' can't be established.
@@ -140,7 +140,7 @@ Warning: Permanently added '123.206.18.135' (ECDSA) to the list of known hosts.
 root@123.206.18.135's password: 
 cache.csr                                         100% 1070     1.0KB/s   00:00    
 ```
-#####6.CA服务器签署证书
+##### 6.CA服务器签署证书
 ```
 [root@test_123.206.18.135 ~]# openssl ca -in /tmp/cache.csr -out /etc/pki/CA/certs/cache.crt -days 365
 Using configuration from /etc/pki/tls/openssl.cnf
@@ -176,7 +176,7 @@ Sign the certificate? [y/n]:y
 Write out database with 1 new entries
 Data Base Updated
 ```
-#####7.删除csr请求文件，并将签署后的证书文件发给节点
+##### 7.删除csr请求文件，并将签署后的证书文件发给节点
 ```
 [root@test_123.206.18.135 ~]# rm -f /tmp/cache.csr
 [root@test_123.206.18.135 ~]# scp /etc/pki/CA/certs/cache.crt root@47.94.82.150:/etc/nginx/ssl/
@@ -184,7 +184,7 @@ Data Base Updated
 [root@cache ssl]# ls
 cache.crt  cache.key
 ```
-#####8.节点nginx ssl 配置
+##### 8.节点nginx ssl 配置
 ```
     server {
         listen       443 ssl;
@@ -195,8 +195,8 @@ cache.crt  cache.key
         ssl_certificate_key "/etc/nginx/ssl/cache.key";
 ```
 
-**测试https**
-#####1.curl测试访问https
+### 测试https
+##### 1.curl测试访问https
 ```
 [root@test_123.206.18.135 ~]# curl -I 'https://47.94.82.150'
 curl: (60) Peer's Certificate issuer is not recognized.
@@ -226,6 +226,6 @@ Connection: keep-alive
 ETag: "59bf8f7f-e74"
 Accept-Ranges: bytes
 ```
-#####2.本地浏览器测试
+##### 2.本地浏览器测试
 
 ![59e34b6eab6441066c00141e](C:\Users\NING\Downloads\59e34b6eab6441066c00141e.jpg)
