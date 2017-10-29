@@ -11,12 +11,16 @@ Resolving deltas: 100% (375727/375727), done.
 [root@server src]# ls
 bind9
 ```
+
 创建named用户
+
 ```
 [root@server bin]# group -r -g 53 named
 [root@server bin]# useradd -r -u 53 -g 53 named
 ```
+
 编译安装
+
 ```
 [root@server src]# cd bind9/
 [root@server bind9]# ./configure --prefix=/usr/local/bind9 --sysconfdir=/etc/named/ --disable-chroot --enable-threads --without-openssl
@@ -24,23 +28,24 @@ bind9
 [root@server bind9]# make && make install
 ```
 
-自行编译bind源码包会产生以下问题:
-（1）没有配置文件
-（2）没有区域解析文件（包括13个根服务器的解析文件）
+自行编译bind源码包会产生以下问题:  
+（1）没有配置文件  
+（2）没有区域解析文件（包括13个根服务器的解析文件）  
 （3）没有rndc的相关配置文件
 
 解决上述问题
+
 ```
 #1、将bind下配置文件加入PATH中
 [root@server bind9]# vim /etc/profile.d/named.sh
 export PATH=/usr/local/bind9/bin:/usr/local/bind9/sbin:$PATH
 [root@server bind9]# . /etc/profile.d/named.sh
- 
+
 #2、导出库文件搜索路径
 [root@server bind9]# vim /etc/ld.so.conf.d/named.conf
 /usr/local/bind9/lib
 [root@server bind9]# ldconfig -v
- 
+
 #3、导出头文件搜索路径
 [root@server bind9]# ln -sv /usr/local/bind9/include /usr/include/named
 "/usr/include/named" -> "/usr/local/bind9/include"
@@ -51,8 +56,9 @@ export PATH=/usr/local/bind9/bin:/usr/local/bind9/sbin:$PATH
 MANDATORY_MANPATH                       /usr/local/bind9/share/man
 ```
 
-编辑主配置文件
-[root@server bind9]# vim /etc/named/named.conf
+编辑主配置文件  
+\[root@server bind9\]\# vim /etc/named/named.conf
+
 ```
 //named.conf
 
@@ -90,6 +96,7 @@ zone "isurecloud.com" IN {
 ```
 
 创建区域解析库文件
+
 ```
 [root@server named]# vim localhost.zone
 $TTL 86400
@@ -124,14 +131,18 @@ OK
 zone localhost/IN: loaded serial 2016091301
 OK
 ```
+
 接下来，为了安全，需要更改主配置文件和解析库文件的权限和属组
+
 ```
 [root@server named]# chmod 640 isurecloud.com.zone  localhost.zone  named.ca named.local
 [root@server named]# chown :named isurecloud.com.zone  localhost.zone  named.ca named.local
 [root@server named]# chmod 640 /etc/named/named.conf
 [root@server named]# chown :named /etc/named/named.conf
 ```
+
 尝试启动bind
+
 ```
 [root@server named]# named -u named
 [root@server named]# echo $?
@@ -168,3 +179,6 @@ UNCONN     0      0      127.0.0.1:53                       *:*                 
 UNCONN     0      0           :::53                      :::*                   users:(("named",pid=2084,fd=512))
 #启动成功，已监听53端口
 ```
+
+
+
