@@ -228,4 +228,4 @@ Accept-Ranges: bytes
 ```
 ##### 2.本地浏览器测试
 
-![浏览器测试结果](https://github.com/imblackjack/book/blob/master/59e34b6eab6441066c00141e.jpg)
+![浏览器测试结果](https://github.com/imblackjack/book/blob/master/static/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C.jpg)
