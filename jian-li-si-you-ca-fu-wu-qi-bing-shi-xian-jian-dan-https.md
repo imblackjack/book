@@ -250,5 +250,5 @@ Accept-Ranges: bytes
 
 ##### 2.本地浏览器测试
 
-![浏览器测试结果](https://github.com/imblackjack/book/blob/master/static/浏览器测试结果.jpg)
+![](/assets/浏览器测试结果.jpg)
 
