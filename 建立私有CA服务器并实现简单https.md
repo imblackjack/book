@@ -228,4 +228,4 @@ Accept-Ranges: bytes
 ```
 ##### 2.本地浏览器测试
 
-![59e34b6eab6441066c00141e](C:\Users\NING\Downloads\59e34b6eab6441066c00141e.jpg)
+![浏览器测试结果](https://github.com/imblackjack/book/blob/master/59e34b6eab6441066c00141e.jpg)
